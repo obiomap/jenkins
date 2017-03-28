@@ -1,0 +1,4 @@
+---
+OJDBC_PATH: /data/tomcat/lib
+PEGA_SCRIPT_HOME: /data/scripts
+OJDBC_SOURCE: tomcat_source: https://artifactory.ti.census.gov:8443/artifactory/CB-PEGA-DEV

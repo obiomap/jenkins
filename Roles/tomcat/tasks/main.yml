@@ -1,0 +1,52 @@
+
+---
+    - name: Install basic software
+      yum: pkg=java-1.8.0-openjdk state=installed update_cache=true
+
+    - name: add group "tomcat"
+      group: name=tomcat
+
+    - name: add user "tomcat"
+      user: name=tomcat group=tomcat home=/home/tomcat createhome=no
+
+    - name: Download Tomcat
+      get_url: url=http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.76/bin/apache-tomcat-7.0.76.tar.gz dest=/opt
+
+    - name: Extract archive
+      command: chdir=/usr/share /bin/tar zxvf /opt/apache-tomcat-7.0.75.tar.gz -C /opt/ creates=/opt/apache-tomcat-7.0.75
+
+    - name: Creates directory
+      file: path={{ CATALINA_HOME }}/pega state=directory
+
+    - name: Creates directory
+      file: path={{ CATALINA_HOME }}/pega/temp state=directory
+
+    - name: Creates directory
+      file: path={{ CATALINA_HOME }}/pega/log state=directory
+
+    - name: Move apache-tomcat-7.0.75 to tomcat7
+      command: mv /opt/apache-tomcat-7.0.75 {{ CATALINA_HOME }}/tomcat7
+
+    - name: Change ownership of Tomcat installation
+      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
+
+    - name: Configure Tomcat server
+      template: src={{ CONFIG_DIR }}/context.xml dest={{ CATALINA_HOME }}/tomcat7/conf/
+
+    - name: Configure Tomcat users
+      template: src={{ CONFIG_DIR }}/tomcat-users.xml dest={{ CATALINA_HOME }}/tomcat7/conf/
+
+    - name: Set environment variables (setenv.sh)
+      template: src={{ CONFIG_DIR }}/setenv.sh dest={{ CATALINA_HOME }}/tomcat7/bin/setenv.sh
+
+    - name: Install Tomcat init script
+      copy: src={{ CONFIG_DIR }}/tomcat7.service dest={{ service_config }}/tomcat7.service mode=0755
+
+    - name: Install Tomcat init script
+      copy: src={{ CONFIG_DIR }}/autostart.sh dest=/etc/rc.local mode=0755
+
+    - name: Change ownership of Tomcat installation
+      file: path={{ CATALINA_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
+
+    - name: start tomcat
+      command: sh {{ CATALINA_HOME }}/tomcat7/bin/startup.sh

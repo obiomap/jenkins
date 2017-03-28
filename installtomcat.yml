@@ -1,0 +1,10 @@
+#Ecase tomcat Installation & Configuration
+ ---
+ - hosts: localhost
+   become: yes
+   connection: local
+
+   roles:
+     - tomcat
+     - pega
+

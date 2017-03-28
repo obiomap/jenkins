@@ -1,0 +1,5 @@
+---
+tomcat_source: https://artifactory.ti.census.gov:8443/artifactory/TI-INF-Generic/tomcat-7
+CATALINA_HOME: /data
+service_config: /usr/lib/systemd/system
+CONFIG_DIR: https://github.ti.census.gov/repositories/TI-INF/stackConfig/CB-ECASE/Roles/tomcat

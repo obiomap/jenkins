@@ -1,0 +1,16 @@
+---
+   - name: Download ojdbc
+     get_url: url={{ OJDBC_SOURCE }}/ojdbc7.jar dest=/opt
+
+   - copy: src=/opt/ojdbc7.jar dest=/data/tomcat/lib/ojdbc7.jar force=no
+
+   - copy: src=files/setupDatabase.properties dest={{ PEGA_HOME }}/setupDatabase.properties force=yes
+
+   - name: Change ownership of Pega installation script
+     file: path={{ PEGA_SCRIPT_HOME }} owner=tomcat group=tomcat state=directory recurse=yes
+
+   - name: Change Pega install script permissions
+     file: dest={{ PEGA_SCRIPT_HOME }}/install.sh owner=tomcat group=tomcat mode=0755
+
+   - name: Run Pega Install Script
+     command: sh {{ PEGA_SCRIPT_HOME }}/install.sh
