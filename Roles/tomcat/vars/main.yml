@@ -1,5 +1,5 @@
 ---
-tomcat_source: https://artifactory.ti.census.gov:8443/artifactory/TI-INF-Generic/tomcat-7
+tomcat_source: http://34.195.119.167:8081/artifactory/example2-repo/
 CATALINA_HOME: /data
 service_config: /usr/lib/systemd/system
-CONFIG_DIR: https://github.ti.census.gov/repositories/TI-INF/stackConfig/CB-ECASE/Roles/tomcat
+CONFIG_DIR: github.com:obiomap/jenkins.git
